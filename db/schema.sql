@@ -2,17 +2,17 @@ DROP DATABASE IF EXISTS employeesDB;
 CREATE DATABASE employeesDB;
 USE employeesDB;
 CREATE TABLE department (
-  id INT AUTO_INCREMENT,
+  department_id INT AUTO_INCREMENT,
   name VARCHAR(30),
-  PRIMARY KEY (id)
+  PRIMARY KEY (department_id)
 );
 CREATE TABLE role (
-  id INT AUTO_INCREMENT,
+  role_id INT AUTO_INCREMENT,
   title VARCHAR(30),
   salary DECIMAL(8, 2),
   department_id INT,
-  PRIMARY KEY (id),
-  FOREIGN KEY id REFERENCES department(department_id)
+  PRIMARY KEY (role_id),
+  FOREIGN KEY (department_id) REFERENCES department(department_id)
 );
 CREATE TABLE employee (
   id INT AUTO_INCREMENT,
@@ -21,5 +21,6 @@ CREATE TABLE employee (
   role_id INT,
   manager_id INT,
   PRIMARY KEY (id),
-  FOREIGN KEY (id) REFERENCES role(id) - - FOREIGN KEY (manager_id) REFERENCES employee(id)
+  FOREIGN KEY (role_id) REFERENCES role(role_id)
 );
+-- FOREIGN KEY (manager_id) REFERENCES employee(id)
