@@ -5,7 +5,7 @@ const inquirer = require("inquirer");
 const db = require("./db");
 // this removes the connection info from our main file, and-
 // hides it in our db folder away from prying eyes
-const connection = require("./db/connection");
+// const connection = require("./db/connection");
 
 
 
