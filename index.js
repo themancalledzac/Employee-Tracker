@@ -53,18 +53,17 @@ function initialMenu() {
 
 function viewMenu() {
 
-    console.log("hello");
     inquirer
         .prompt({
             message: "Choose something",
             name: "action",
             type: "list",
             choices: [
-                "VIEW_DEPARTMENTS",
-                "VIEW_ROLES",
-                "VIEW_EMPLOYEES",
-                "EMPLOYEES_BY_MANAGER",
-                "QUIT"
+                "1. View Departments",
+                "2. View Roles",
+                "3. View Employees",
+                "4. View Employees by Manager",
+                "5. Go back to the main menu"
 
             ]
         })
@@ -72,20 +71,24 @@ function viewMenu() {
 
             switch (res.action) {
 
-                case "VIEW_DEPARTMENTS":
+                case "1. View Departments":
                     viewDepartments();
                     return;
 
-                case "VIEW_ROLES":
+                case "2. View Roles":
                     viewRoles();
                     return;
 
-                case "VIEW_EMPLOYEES":
+                case "3. View Employees":
                     viewEmployees();
                     return;
 
-                case "EMPLOYEES_BY_MANAGER":
+                case "4. View Employees by Manager":
                     employeesByManager();
+                    return;
+
+                case "5. Go back to the main menu":
+                    initialMenu();
                     return;
             }
 
