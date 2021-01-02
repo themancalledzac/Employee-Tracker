@@ -17,30 +17,30 @@ function initialMenu() {
             name: "action",
             type: "list",
             choices: [
-                "VIEW_MENU",
-                "CREATE_MENU",
-                "UPDATE_MENU",
-                "DELETE_MENU",
-                "QUIT"
+                "1. View Menu",
+                "2. Create Menu",
+                "3. Update Menu",
+                "4. Delete Menu",
+                "5. Exit Application"
             ]
         })
         .then((res) => {
 
             switch (res.action) {
 
-                case "VIEW_MENU":
+                case "1. View Menu":
                     viewMenu();
                     return;
 
-                case "CREATE_MENU":
+                case "2. Create Menu":
                     createMenu();
                     return;
 
-                case "UPDATE_MENU":
+                case "3. Update Menu":
                     updateMenu();
                     return;
 
-                case "DELETE_MENU":
+                case "4. Delete Menu":
                     deleteMenu();
                     return;
 
@@ -123,6 +123,7 @@ function viewEmployees() {
 // view employees by manager
 function employeesByManager() {
     db
+    initialMenu();
     // something
 };
 
@@ -131,7 +132,7 @@ function createMenu() {
     inquirer
         .prompt({
             message: "What do you want to create?",
-            name: "create",
+            name: "action",
             type: "list",
             choices: [
                 "CREATE_DEPARTMENT",
@@ -161,7 +162,7 @@ function createMenu() {
 
 // add department
 function createDepartment() {
-
+    initialMenu();
 };
 
 // add role.
@@ -176,6 +177,7 @@ function createRole() {
                 .prompt([
                     {
                         message: "What department is this role for?",
+                        name: "action",
                         type: "list",
                         choices: [
                             "something"
@@ -188,7 +190,7 @@ function createRole() {
 
 // add employee
 function createEmployee() {
-
+    initialMenu();
 };
 
 function updateMenu() {
@@ -196,7 +198,7 @@ function updateMenu() {
     inquirer
         .prompt({
             message: "What are we updating?",
-            name: "update",
+            name: "action",
             type: "list",
             choices: [
 
@@ -224,12 +226,12 @@ function updateMenu() {
 // update employee
 // also asks to update employee manager
 function updateEmployee() {
-
+    initialMenu();
 };
 
 // update an employee's manager
 function updateEmployeeManager() {
-
+    initialMenu();
 };
 
 
@@ -238,7 +240,7 @@ function deleteMenu() {
     inquirer
         .prompt({
             message: "What are we deleting?",
-            name: "delete",
+            name: "action",
             type: "list",
             choices: [
                 // delete department, role, manager
@@ -272,15 +274,15 @@ function deleteMenu() {
 // do we need to force an update of department of people who's department is deleted?
 // 
 function deleteDepartment() {
-
+    initialMenu();
 };
 
 function deleteRole() {
-
+    initialMenu();
 };
 
 function deleteEmployee() {
-
+    initialMenu();
 };
 
 
