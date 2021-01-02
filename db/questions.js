@@ -31,5 +31,18 @@ module.exports = {
 
             ]
         }]
-    }
+    },
+
+    createMenuQ() {
+        return [{
+            message: "What do you want to create?",
+            name: "action",
+            type: "list",
+            choices: [
+                "CREATE_DEPARTMENT",
+                "CREATE_ROLE",
+                "CREATE_EMPLOYEE",
+            ]
+        }]
+    },
 };
