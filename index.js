@@ -9,25 +9,51 @@ const db = require("./db");
 const connection = require("./db/connection");
 
 // break up the start into an intial menu that further breaks down, so as not to have too many options from the start.
-function start() {
+function initialMenu() {
 
     inquirer
         .prompt({
-            message: "Choose your menu",
-            name: "Initial_Menu",
+            message: "View, create, update, or delete?",
+            name: "action",
             type: "list",
             choices: [
-                "VIEW",
-                "CREATE",
-                "UPDATE",
-                "DELETE",
+                "VIEW_MENU",
+                "CREATE_MENU",
+                "UPDATE_MENU",
+                "DELETE_MENU",
+                "QUIT"
             ]
         })
-}
+        .then((res) => {
+
+            switch (res.action) {
+
+                case "VIEW_MENU":
+                    viewMenu();
+                    return;
+
+                case "CREATE_MENU":
+                    createMenu();
+                    return;
+
+                case "UPDATE_MENU":
+                    updateMenu();
+                    return;
+
+                case "DELETE_MENU":
+                    deleteMenu();
+                    return;
+
+                default:
+                    connection.end();
+            }
+        })
+};
 
 
-function askForAction() {
+function viewMenu() {
 
+    console.log("hello");
     inquirer
         .prompt({
             message: "Choose something",
@@ -37,12 +63,7 @@ function askForAction() {
                 "VIEW_DEPARTMENTS",
                 "VIEW_ROLES",
                 "VIEW_EMPLOYEES",
-                "CREATE_DEPARTMENT",
-                "CREATE_ROLE",
-                "CREATE_EMPLOYEE",
-                "UPDATE_EMPLOYEE",
                 "EMPLOYEES_BY_MANAGER",
-                "DELETE_DEPARTMENT",
                 "QUIT"
 
             ]
@@ -63,6 +84,65 @@ function askForAction() {
                     viewEmployees();
                     return;
 
+                case "EMPLOYEES_BY_MANAGER":
+                    employeesByManager();
+                    return;
+            }
+
+        })
+};
+
+function viewDepartments() {
+
+    db
+        .getDepartments()
+        .then((results) => {
+            console.table(results);
+            initialMenu();
+        });
+};
+function viewRoles() {
+
+    db
+        .getRoles()
+        .then((results) => {
+            console.table(results);
+            initialMenu();
+        });
+};
+function viewEmployees() {
+
+    db
+        .getEmployees()
+        .then((results) => {
+            console.table(results);
+            initialMenu();
+        });
+};
+
+// view employees by manager
+function employeesByManager() {
+    db
+    // something
+};
+
+function createMenu() {
+
+    inquirer
+        .prompt({
+            message: "What do you want to create?",
+            name: "create",
+            type: "list",
+            choices: [
+                "CREATE_DEPARTMENT",
+                "CREATE_ROLE",
+                "CREATE_EMPLOYEE",
+            ]
+        })
+        .then((res) => {
+
+            switch (res.action) {
+
                 case "CREATE_DEPARTMENT":
                     createDepartment();
                     return;
@@ -75,52 +155,9 @@ function askForAction() {
                     createEmployee();
                     return;
 
-                case "UPDATE_EMPLOYEE":
-                    updateEmployee();
-                    return;
-
-                case "EMPLOYEES_BY_MANAGER":
-                    employeesByManager();
-                    return;
-
-                case "DELETE_DEPARTMENT":
-                    deleteDepartment();
-                    return;
-
-                default:
-                    connection.end();
             }
-
         })
 };
-
-function viewDepartments() {
-
-    db
-        .getDepartments()
-        .then((results) => {
-            console.table(results);
-            askForAction();
-        });
-}
-function viewRoles() {
-
-    db
-        .getRoles()
-        .then((results) => {
-            console.table(results);
-            askForAction();
-        });
-}
-function viewEmployees() {
-
-    db
-        .getEmployees()
-        .then((results) => {
-            console.table(results);
-            askForAction();
-        });
-}
 
 // add department
 function createDepartment() {
@@ -140,7 +177,9 @@ function createRole() {
                     {
                         message: "What department is this role for?",
                         type: "list",
-                        choices: 
+                        choices: [
+                            "something"
+                        ]
                     }
                 ])
 
@@ -152,6 +191,35 @@ function createEmployee() {
 
 };
 
+function updateMenu() {
+
+    inquirer
+        .prompt({
+            message: "What are we updating?",
+            name: "update",
+            type: "list",
+            choices: [
+
+                "UPDATE_EMPLOYEE",
+                "UPDATE_EMPLOYEE_MANAGER",
+
+            ]
+        })
+        .then((res) => {
+
+            switch (res.action) {
+
+                case "UPDATE_EMPLOYEE":
+                    updateEmployee();
+                    return;
+
+                case "UPDATE_EMPLOYEE_MANAGER":
+                    updateEmployeeManager();
+                    return;
+
+            }
+        })
+};
 
 // update employee
 // also asks to update employee manager
@@ -159,8 +227,43 @@ function updateEmployee() {
 
 };
 
-// view employees by manager
-function employeesByManager() {
+// update an employee's manager
+function updateEmployeeManager() {
+
+};
+
+
+function deleteMenu() {
+
+    inquirer
+        .prompt({
+            message: "What are we deleting?",
+            name: "delete",
+            type: "list",
+            choices: [
+                // delete department, role, manager
+                "DELETE_DEPARTMENT",
+                "DELETE_ROLE",
+                "DELETE_EMPLOYEE",
+            ]
+        })
+        .then((res) => {
+            switch (res.action) {
+
+                case "DELETE_DEPARTMENT":
+                    deleteDepartment();
+                    return;
+
+                case "DELETE_ROLE":
+                    deleteRole();
+                    return;
+
+                case "DELETE_EMPLOYEE":
+                    deleteEmployee();
+                    return;
+
+            }
+        })
 
 };
 
@@ -172,9 +275,16 @@ function deleteDepartment() {
 
 };
 
+function deleteRole() {
+
+};
+
+function deleteEmployee() {
+
+};
+
 
 // remove employee
 
 // update
-
-askForAction();
+initialMenu();
