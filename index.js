@@ -169,7 +169,18 @@ function createMenu() {
 
 // add department
 function createDepartment() {
-    initialMenu();
+
+    inquirer
+        .prompt({
+            type: "input",
+            name: "name",
+            message: "What is the name of the new Department?"
+        })
+        .then((results) => {
+            db
+                .createDepartment(results)
+            initialMenu();
+        });
 };
 
 // add role.
