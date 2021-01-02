@@ -7,12 +7,13 @@ const db = require("./db");
 // hides it in our db folder away from prying eyes
 // const connection = require("./db/connection");
 const connection = require("./db/connection");
+const questions = require("./db/questions");
 
 // break up the start into an intial menu that further breaks down, so as not to have too many options from the start.
 function initialMenu() {
 
-    inquirer
-        .prompt({
+    const initialMenuQ = [
+        {
             message: "View, create, update, or delete?",
             name: "action",
             type: "list",
@@ -23,7 +24,10 @@ function initialMenu() {
                 "4. Delete Menu",
                 "5. Exit Application"
             ]
-        })
+        }
+    ];
+    inquirer
+        .prompt(initialMenuQ)
         .then((res) => {
 
             switch (res.action) {
