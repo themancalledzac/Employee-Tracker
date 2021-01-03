@@ -196,7 +196,6 @@ function createRole() {
                 name: department.name
             }));
 
-
             inquirer
                 .prompt([
                     {
@@ -319,10 +318,55 @@ function deleteMenu() {
 // do we need to force an update of department of people who's department is deleted?
 // 
 function deleteDepartment() {
-    initialMenu();
+
+    db
+        .getDepartments()
+        .then((departments) => {
+
+            const departmentChoice = departments.map((department) => ({
+                value: department.department_id,
+                name: department.name
+            }));
+            console.log(departmentChoice);
+
+            // db
+            // .getRoles()
+            // .then((roles) => {
+
+            //     const roleID = roles.map((role) => ({
+            //         value: role.department_id
+            //     }));
+            // })
+
+            inquirer
+                .prompt({
+                    message: "What department do you want to delete?",
+                    name: "department_name",
+                    type: "list",
+                    choices: departmentChoice
+                })
+                // if (departmentChoice === roleID)
+                // break;
+                .then((results) => {
+                    db
+                        .deleteDepartment(results.department_name);
+                    initialMenu();
+                });
+        })
+
 };
 
 function deleteRole() {
+
+    db
+        .getRoles()
+        .then((roles) => {
+
+            const roleChoice = roles.map((role) => ({
+                value: role.role_id,
+                name: role.title
+            }))
+        })
     initialMenu();
 };
 

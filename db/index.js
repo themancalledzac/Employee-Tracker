@@ -21,5 +21,8 @@ module.exports = {
     },
     insertRole(data) {
         return connection.query("INSERT INTO role SET ?", data);
+    },
+    deleteDepartment(data) {
+        return connection.query("DELETE FROM department WHERE department_id=?", data);
     }
 }
