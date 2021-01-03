@@ -22,7 +22,13 @@ module.exports = {
     insertRole(data) {
         return connection.query("INSERT INTO role SET ?", data);
     },
+    createEmployee(data) {
+        return connection.query("INSERT INTO employee SET ?", data);
+    },
     deleteDepartment(data) {
         return connection.query("DELETE FROM department WHERE department_id=?", data);
+    },
+    selectEmployeesByDepartment(data) {
+        return connection.query("SELECT * FROM employee WHERE role=?", data);
     }
 }

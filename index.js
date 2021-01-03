@@ -234,7 +234,47 @@ function createRole() {
 
 // add employee
 function createEmployee() {
-    initialMenu();
+
+    db
+        .getRoles()
+        .then((roles) => {
+
+            const roleChoice = roles.map((role) => ({
+                value: role.role_id,
+                name: role.title
+            }));
+
+            inquirer
+                .prompt([
+                    {
+                        message: "What is the new Employees first name?",
+                        name: "first_name",
+                        type: "input"
+                    },
+                    {
+                        message: "What is the new Employees last name?",
+                        name: "last_name",
+                        type: "input"
+                    },
+                    {
+                        message: "What role does will this employee take?",
+                        name: "employee_role",
+                        type: "list",
+                        choices: roleChoice
+                    }
+                ])
+                .then((results) => {
+                    resultsObject = {
+                        first_name: results.first_name,
+                        last_name: results.last_name,
+                        role_id: results.employee_role
+                    }
+                    db
+                        .createEmployee(resultsObject);
+                    console.log(resultsObject);
+                    initialMenu();
+                });
+        })
 };
 
 function updateMenu() {
