@@ -10,6 +10,7 @@ const connection = require("./db/connection");
 const questions = require("./db/questions");
 
 // break up the start into an intial menu that further breaks down, so as not to have too many options from the start.
+// =============================INITIAL MENU====================================//
 function initialMenu() {
 
     const initialMenuQ = [
@@ -54,7 +55,7 @@ function initialMenu() {
         })
 };
 
-
+// =============================VIEW MENU====================================//
 function viewMenu() {
 
     inquirer
@@ -129,11 +130,29 @@ function viewEmployees() {
 
 // view employees by manager
 function employeesByManager() {
-    db
+    // CURRENT PROBLEM is there are no names associated with manager_id's. Who are these managers?!
+    // TUTOR
+    // db
+    //     .getEmployees()
+    //     .then((employees) => {
+
+    //         const employeeChoice = employees.map((employee) => ({
+    //             value: employee.manager_id,
+    //             first_name: employee.first_name,
+    //             last_name: employee.last_name
+    //         }));
+    //         inquirer
+    //             .prompt([
+    //                 {
+    //                     message: "What"
+    //                 }
+    //             ])
+    //     })
     initialMenu();
     // something
 };
 
+// =============================CREATE MENU====================================//
 function createMenu() {
 
     inquirer
@@ -228,8 +247,6 @@ function createRole() {
                 });
 
         })
-    // second insert is title
-    // third insert is salary
 };
 
 // add employee
@@ -277,6 +294,7 @@ function createEmployee() {
         })
 };
 
+// =============================UPDATE MENU====================================//
 function updateMenu() {
 
     inquirer
@@ -310,7 +328,59 @@ function updateMenu() {
 // update employee
 // also asks to update employee manager
 function updateEmployee() {
-    initialMenu();
+
+    db
+        .getEmployees()
+        .then((employees) => {
+
+            const employeeUpdate = employees.map((employee) => ({
+                value: employee.id,
+                name: `${employee.first_name} ${employee.last_name}`
+            }));
+
+            db
+                .getRoles()
+                .then((roles) => {
+
+                    const roleChoice = roles.map((role) => ({
+                        value: role.role_id,
+                        name: role.title
+                    }));
+
+                    inquirer
+                        .prompt([
+                            {
+                                message: "Which employee would you like to update?",
+                                name: "employee_select",
+                                type: "list",
+                                choices: employeeUpdate
+                            },
+                            {
+                                message: "Please update the first name",
+                                name: "first_name",
+                                type: "input"
+                            },
+                            {
+                                message: "Please update the last name",
+                                name: "last_name",
+                                type: "input"
+                            },
+                            {
+                                message: "Please update their new role",
+                                name: "employee_role",
+                                type: "list",
+                                choices: roleChoice
+                            },
+
+                        ])
+                        .then((results) => {
+                            console.log(results);
+                            db
+                                .updateEmployee(results)
+                            initialMenu();
+                        })
+                })
+        })
 };
 
 // update an employee's manager
@@ -318,7 +388,7 @@ function updateEmployeeManager() {
     initialMenu();
 };
 
-
+// =============================DELETE MENU====================================//
 function deleteMenu() {
 
     inquirer
@@ -353,10 +423,6 @@ function deleteMenu() {
 
 };
 
-// delete an entire department
-// probably will need a secondary confirmation, "are you SURE?"
-// do we need to force an update of department of people who's department is deleted?
-// 
 function deleteDepartment() {
 
     db
@@ -366,17 +432,8 @@ function deleteDepartment() {
             const departmentChoice = departments.map((department) => ({
                 value: department.department_id,
                 name: department.name
+                // console.log(departmentChoice);
             }));
-            console.log(departmentChoice);
-
-            // db
-            // .getRoles()
-            // .then((roles) => {
-
-            //     const roleID = roles.map((role) => ({
-            //         value: role.department_id
-            //     }));
-            // })
 
             inquirer
                 .prompt({
@@ -385,15 +442,12 @@ function deleteDepartment() {
                     type: "list",
                     choices: departmentChoice
                 })
-                // if (departmentChoice === roleID)
-                // break;
                 .then((results) => {
                     db
                         .deleteDepartment(results.department_name);
                     initialMenu();
                 });
         })
-
 };
 
 function deleteRole() {

@@ -28,7 +28,13 @@ module.exports = {
     deleteDepartment(data) {
         return connection.query("DELETE FROM department WHERE department_id=?", data);
     },
-    selectEmployeesByDepartment(data) {
-        return connection.query("SELECT * FROM employee WHERE role=?", data);
+    updateEmployee(data) {
+        return connection.query("UPDATE employee SET first_name = ?, last_name = ?, role_id = ? WHERE ?",
+            {
+                first_name: data.first_name,
+                last_name: data.last_name,
+                role_id: data.employee_role,
+                id: data.employee_select
+            })
     }
 }
