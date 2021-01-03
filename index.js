@@ -22,7 +22,7 @@ function initialMenu() {
                 "2. Create Menu",
                 "3. Update Menu",
                 "4. Delete Menu",
-                "5. Exit Application"
+                "5. Exit Application",
             ]
         }
     ];
@@ -186,24 +186,51 @@ function createDepartment() {
 // add role.
 //  
 function createRole() {
+    // first insert is what department ID
     db
         .getDepartments()
         .then((departments) => {
-            console.log(departments);
+
+            const departmentChoice = departments.map((department) => ({
+                value: department.department_id,
+                name: department.name
+            }));
+
 
             inquirer
                 .prompt([
                     {
-                        message: "What department is this role for?",
-                        name: "action",
+                        message: "What is the title of this new role?",
+                        name: "role_title",
+                        type: "input"
+                    },
+                    {
+                        message: "What is the salary of this new role?",
+                        name: "role_salary",
+                        type: "input"
+                    },
+                    {
+                        message: "\nWhat department is this role for?",
+                        name: "role_department",
                         type: "list",
-                        choices: [
-                            "something"
-                        ]
-                    }
+                        choices: departmentChoice
+                    },
                 ])
+                .then((results) => {
+                    resultsObject = {
+                        title: results.role_title,
+                        salary: results.role_salary,
+                        department_id: results.role_department
+                    }
+                    db
+                        .insertRole(resultsObject);
+                    console.log(resultsObject);
+                    initialMenu();
+                });
 
         })
+    // second insert is title
+    // third insert is salary
 };
 
 // add employee

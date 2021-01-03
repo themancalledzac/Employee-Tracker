@@ -19,4 +19,7 @@ module.exports = {
     createDepartment(data) {
         return connection.query("INSERT INTO department SET ?", data);
     },
+    insertRole(data) {
+        return connection.query("INSERT INTO role SET ?", data);
+    }
 }
