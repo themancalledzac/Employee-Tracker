@@ -25,9 +25,6 @@ module.exports = {
     createEmployee(data) {
         return connection.query("INSERT INTO employee SET ?", data);
     },
-    deleteDepartment(data) {
-        return connection.query("DELETE FROM department WHERE department_id=?", data);
-    },
     updateEmployee(data) {
         return connection.query(
             "UPDATE employee SET ? WHERE ?",
@@ -41,5 +38,14 @@ module.exports = {
                     id: data.employee_select
                 }
             ])
+    },
+    deleteDepartment(data) {
+        return connection.query("DELETE FROM department WHERE department_id=?", data);
+    },
+    deleteRole(data) {
+        return connection.query("DELETE FROM role WHERE role_id=?", data);
+    },
+    deleteEmployee(data) {
+        return connection.query("DELETE FROM employee WHERE employee.id=?", data);
     }
 }

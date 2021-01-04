@@ -132,14 +132,14 @@ function viewEmployees() {
 function employeesByManager() {
     // CURRENT PROBLEM is there are no names associated with manager_id's. Who are these managers?!
     // TUTOR
+    //---uncomment here
     // db
     //     .getEmployees()
     //     .then((employees) => {
 
     //         const employeeChoice = employees.map((employee) => ({
     //             value: employee.manager_id,
-    //             first_name: employee.first_name,
-    //             last_name: employee.last_name
+    //             name: `${employee.first_name} ${employee.last_name}`
     //         }));
     //         inquirer
     //             .prompt([
@@ -459,13 +459,47 @@ function deleteRole() {
             const roleChoice = roles.map((role) => ({
                 value: role.role_id,
                 name: role.title
-            }))
+            }));
+
+            inquirer
+                .prompt({
+                    message: "What role do you want to delete?",
+                    name: "role_name",
+                    type: "list",
+                    choices: roleChoice
+                })
+                .then((results) => {
+                    db
+                        .deleteRole(results.role_name);
+                    initialMenu();
+                })
         })
-    initialMenu();
 };
 
 function deleteEmployee() {
-    initialMenu();
+
+    db
+        .getEmployees()
+        .then((employees) => {
+
+            const employeeChoice = employees.map((employee) => ({
+                value: employee.id,
+                name: `${employee.first_name} ${employee.last_name}`
+            }));
+
+            inquirer
+                .prompt({
+                    message: "What employee do you want to delete?",
+                    name: "employee_name",
+                    type: "list",
+                    choices: employeeChoice
+                })
+                .then((results) => {
+                    db
+                        .deleteEmployee(results.employee_name);
+                    initialMenu();
+                })
+        })
 };
 
 
